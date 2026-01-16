@@ -226,6 +226,9 @@
 <!-- Hidden YouTube player -->
 <div id="player" style="display:none;"></div>
 
+<!-- ⭐ FIXED YOUTUBE API LOAD ⭐ -->
+<script src="https://www.youtube.com/iframe_api"></script>
+
 <script>
 /* -------- PLAYLIST -------- */
 const playlist = [
@@ -257,10 +260,9 @@ const songNotes = [
     "This was the bg song of one of the first shorts I had seen on your youtube channel. And this was my exact comment seeing you for the first time. Even though I did not know you, I knew one thing - I had never known someone like you and wow what I privilege it is to know a soul like yours",
     "My wishlist was never empty. I always kept adding stuff thinking - this book, this gadget, this lipstick, this will probably make me happy, this will make my life ….. Complete. Naive Pratyasha did not know, the only thing she needed on her wishlist was YOU. ",
     "As medieval and cringe as it may sound, that is what I want , to mark my name on you and have yours marked on me. So till the end of time or till the end of our existence - we existing as each others’, not as two separate ones.",
-    "This song is how I had imagined Love arriving in my life - flowers blooming, showering rain - and then after waiting forever I realised I was only building sandcastles in my head. But after being with you, now I know “falling is love” is not the only beautiful part , ‘being in love everyday’ is - when someone blooms (sends a picture) a flower for you, or showers you with calming rain when the entire world is throwing scorching heat
-",
+    "This song is how I had imagined Love arriving in my life - flowers blooming, showering rain - and then after waiting forever I realised I was only building sandcastles in my head. But after being with you, now I know “falling is love” is not the only beautiful part , ‘being in love everyday’ is - when someone blooms (sends a picture) a flower for you, or showers you with calming rain when the entire world is throwing scorching heat",
     "Carrying the essence of the last song , Love can be a year-long season - not a seasonal feeling that arrives on an occasion - it is every moment with you - happy days and on sad days - not in grand gestures but in the smallest acts that sweeps me off my feet and leaves me spellbound",
-    "I honestly had forgotten what it feels like fto fall - to be - in love in love or maybe I had never known, when I first started speaking with you I was so scared of what I was feeling, because it was an alien emotion, I don't remember being that happy, that content (yes even with my overthinking head) ever before. Thank you for introducing me to this feeling, I pray it never leaves me"
+    "I honestly had forgotten what it feels to fall - to be - in love or maybe I had never known, when I first started speaking with you I was so scared of what I was feeling, because it was an alien emotion, I don't remember being that happy, that content (yes even with my overthinking head) ever before. Thank you for introducing me to this feeling, I pray it never leaves me"
 ];
 
 /* --------- ACTIVE LETTER UPDATE -------- */
@@ -272,10 +274,6 @@ function updateActiveLetter(index) {
 
 /* --------- YOUTUBE PLAYER -------- */
 let player, currentTrack = 0, isPlaying = false;
-
-var tag = document.createElement("script");
-tag.src = "https://www.youtube.com/iframe_api";
-document.body.appendChild(tag);
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player("player", {
@@ -343,5 +341,6 @@ updateActiveLetter(0);
 
 </body>
 </html>
+
 
 
