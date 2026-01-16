@@ -18,7 +18,6 @@
         padding: 40px;
     }
 
-    /* === PAGE LAYOUT === */
     .page-wrapper {
         display: flex;
         align-items: center;
@@ -34,28 +33,20 @@
         align-items: center;
     }
 
-    /* === NAME AT TOP === */
     .name-title {
         font-size: 40px;
         letter-spacing: 10px;
         margin-bottom: 20px;
     }
 
-    .name-title span {
-        opacity: 0.5;
-    }
-
-    .name-title .active {
-        font-weight: bold;
-        opacity: 1;
-    }
+    .name-title span { opacity: 0.5; }
+    .name-title .active { font-weight: bold; opacity: 1; }
 
     .song-title {
         margin-bottom: 25px;
         font-size: 18px;
     }
 
-    /* === NOTE BOX (RIGHT) — UPDATED === */
     .note-box {
         width: 350px;
         height: 300px;
@@ -65,23 +56,18 @@
         padding: 20px;
         font-size: 16px;
         line-height: 1.4;
-
-        /* ⭐ Long text scroll (Fix 1) */
         overflow-y: auto;
         scrollbar-width: thin;
-
-        /* ⭐ Notebook faint lines (Fix 2) */
         background-image: repeating-linear-gradient(
             to bottom,
-            rgba(0, 0, 0, 0.05) 0px,
-            rgba(0, 0, 0, 0.05) 1px,
+            rgba(0,0,0,0.05) 0px,
+            rgba(0,0,0,0.05) 1px,
             transparent 1px,
             transparent 25px
         );
         background-size: 100% 25px;
     }
 
-    /* === ORIGINAL CASSETTE CSS STARTS (UNCHANGED EXCEPT REEL VISIBILITY) === */
     .cassette {
         background: linear-gradient(to bottom, #2c2c2c 0%, #1a1a1a 100%);
         border-radius: 20px;
@@ -115,7 +101,6 @@
         gap: 20px;
     }
 
-    /* ⭐ UPDATED REEL (Fix 3: visible spinning) */
     .reel {
         width: 80px;
         height: 80px;
@@ -127,26 +112,23 @@
         position: relative;
     }
 
-    /* ⭐ two visible rotating stripes */
-    .reel::before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 4px;
-        background: rgba(255, 255, 255, 0.20);
-        top: 50%;
-        left: 0;
-        transform: translateY(-50%) rotate(-45deg);
-    }
-
+    .reel::before,
     .reel::after {
         content: '';
         position: absolute;
         width: 100%;
         height: 4px;
-        background: rgba(255, 255, 255, 0.25);
         top: 50%;
         left: 0;
+    }
+
+    .reel::before { 
+        background: rgba(255,255,255,0.20);
+        transform: translateY(-50%) rotate(-45deg);
+    }
+
+    .reel::after { 
+        background: rgba(255,255,255,0.25);
         transform: translateY(-50%) rotate(45deg);
     }
 
@@ -199,18 +181,15 @@
 
 <div class="page-wrapper">
 
-    <!-- LEFT SIDE -->
     <div class="left-section">
 
-        <!-- NAME ON TOP -->
         <div class="name-title" id="nameTitle">
-            <span>S</span><span>H</span><span>A</span><span>W</span><span>M</span><span>A</span><span>V</span><span>A</span>
+            <span>S</span><span>H</span><span>A</span><span>W</span>
+            <span>M</span><span>A</span><span>V</span><span>A</span>
         </div>
 
-        <!-- SONG TITLE PLACEHOLDER -->
         <div class="song-title" id="songTitle">Soch Na Sake</div>
 
-        <!-- CASSETTE -->
         <div class="cassette">
 
             <div class="cassette-top">
@@ -220,8 +199,8 @@
                 </div>
 
                 <div class="reels">
-                    <div class="reel" id="reel1"></div>
-                    <div class="reel" id="reel2"></div>
+                    <div class="reel"></div>
+                    <div class="reel"></div>
                 </div>
             </div>
 
@@ -232,7 +211,8 @@
             </div>
 
             <div class="volume-control">
-                🔉 <input type="range" id="volumeSlider" min="0" max="100" value="70" onchange="changeVolume()"> 🔊
+                🔉 <input type="range" id="volumeSlider"
+                 min="0" max="100" value="70"> 🔊
             </div>
 
             <div class="now-playing">
@@ -242,130 +222,111 @@
         </div>
     </div>
 
-    <!-- RIGHT SIDE NOTE BOX -->
     <div class="note-box" id="noteBox">
-       This song-name summarises my love for you. ‘Love’ - That you cannot think or understand and I cannot possible depict in words , because it is vast beyond explanation and unimaginably deep. So I make these stupid sites and throw them at you as my token of this weird love. 
+       This song-name summarises my love for you...
     </div>
 
 </div>
 
-<!-- Hidden YouTube player -->
 <div id="player" style="display:none;"></div>
 
-<!-- FIXED YouTube API load -->
+<!-- MUST be above your script and unblocked -->
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
-/* -------- PLAYLIST -------- */
 const playlist = [
-    "MRtRcTfszjY",
-    "FJ55SHCzt88",
-    "vwsWXUGLRts",
-    "wqgUzLHgNMI",
-    "6vXG7JOYfn8",
-    "CNZMIhckaA0",
-    "7NLfpsNHmZI",
-    "fbdxYoFb64g"
+    "MRtRcTfszjY", "FJ55SHCzt88", "vwsWXUGLRts", "wqgUzLHgNMI",
+    "6vXG7JOYfn8", "CNZMIhckaA0", "7NLfpsNHmZI", "fbdxYoFb64g"
 ];
 
-/* ---------- SONG TITLES ---------- */
 const songNames = [
-    "Soch Na Sake",
-    "Humdard",
-    "Amar Mawte (আমার মতে)",
-    "Wishlist",
-    "Mere Naam Tu",
-    "Aaoge Jab Tum",
-    "Bhalobashar Morshum (ভালবাসার মরশুম)",
-    "Abhi Kuch Dino Se"
+    "Soch Na Sake", "Humdard", "Amar Mawte (আমার মতে)",
+    "Wishlist", "Mere Naam Tu", "Aaoge Jab Tum",
+    "Bhalobashar Morshum (ভালবাসার মরশুম)", "Abhi Kuch Dino Se"
 ];
 
-/* ---------- NOTES ---------- */
 const songNotes = [
-    "This song-name summarises my love for you. ‘Love’ - That you cannot think or understand and I cannot possible depict in words , because it is vast beyond explanation and unimaginably deep. So I make these stupid sites and throw them at you as my token of this weird love. ",
+    "This song-name summarises my love for you. ‘Love’ - That you cannot think or understand and I cannot possibly depict in words , because it is vast beyond explanation and unimaginably deep. So I make these stupid sites and throw them at you as my token of this weird love. ",
     "Life has always been painful or well I have always been EXTRA dramatic. Anyway, I have been dealing with all this pain alone so far, but having you as my ‘Humdard’ to share my pain has been the most soothing medicine of all. ",
     "This was the bg song of one of the first shorts I had seen on your youtube channel. And this was my exact comment seeing you for the first time. Even though I did not know you, I knew one thing - I had never known someone like you and wow what I privilege it is to know a soul like yours",
     "My wishlist was never empty. I always kept adding stuff thinking - this book, this gadget, this lipstick, this will probably make me happy, this will make my life ….. Complete. Naive Pratyasha did not know, the only thing she needed on her wishlist was YOU. ",
-    "As medieval and cringe as it may sound, that is what I want , to mark my name on you and have yours marked on me.
- So till the end of time or till the end of our existence - we existing as each others’, not as two separate ones.",
-    "This song is how I had imagined Love arriving in my life - flowers blooming, showering rain - and then after waiting forever I realised I was only building sandcastles in my head.
- But after being with you, now I know “falling is love” is not the only beautiful part , ‘being in love everyday’ is - when someone blooms (sends a picture) a flower for you, or showers you with calming rain when the entire world is throwing scorching heat",
+    "As medieval and cringe as it may sound, this song is what I want , to mark my name on you and have yours marked on me. So till the end of time or till the end of our existence - we existing as each others’, not as two separate ones.",
+    "This song is how I had imagined Love arriving in my life - flowers blooming, showering rain - and then after waiting forever I realised I was only building sandcastles in my head. But after being with you, now I know “falling is love” is not the only beautiful part , ‘being in love everyday’ is - when someone blooms (sends a picture) a flower for you, or showers you with calming rain when the entire world is throwing scorching heat",
     "Carrying the essence of the last song , Love can be a year-long season - not a seasonal feeling that arrives on an occasion - it is every moment with you - happy days and on sad days - not in grand gestures but in the smallest acts that sweeps me off my feet and leaves me spellbound",
     "I honestly had forgotten what it feels like to fall - to be - in love or maybe I had never known, when I first started speaking with you I was so scared of what I was feeling, because it was an alien emotion, I don't remember being that happy, that content (yes even with my overthinking head) ever before. Thank you for introducing me to this feeling, I pray it never leaves me"
 ];
 
-/* ---------- ACTIVE LETTER HIGHLIGHT ---------- */
-function updateActiveLetter(index) {
-    const spans = document.querySelectorAll("#nameTitle span");
-    spans.forEach(s => s.classList.remove("active"));
-    spans[index].classList.add("active");
-}
-
-/* --------- YOUTUBE PLAYER -------- */
 let player, currentTrack = 0, isPlaying = false;
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player("player", {
-        height: "0",
-        width: "0",
+        height: "0", width: "0",
         videoId: playlist[0],
-        events: { onReady: onPlayerReady, onStateChange: onPlayerStateChange }
+        playerVars: { playsinline: 1, controls: 0 },
+        events: { onReady: onReady, onStateChange: onState }
     });
 }
 
-function onPlayerReady() { player.setVolume(70); }
-
-function onPlayerStateChange(event) {
-    if (event.data === YT.PlayerState.ENDED) nextTrack();
+function onReady() {
+    player.setVolume(70);
 }
 
-/* --------- PLAYBACK CONTROLS -------- */
-function togglePlay() {
-    const btn = document.getElementById("playBtn");
-    const reels = document.querySelectorAll(".reel");
-
-    if (!isPlaying) {
-        player.playVideo();
-        btn.textContent = "⏸️ Pause";
-        reels.forEach(r => r.classList.add("playing"));
-        isPlaying = true;
-    } else {
-        player.pauseVideo();
-        btn.textContent = "▶️ Play";
-        reels.forEach(r => r.classList.remove("playing"));
-        isPlaying = false;
-    }
+function onState(event) {
+    if (event.data === YT.PlayerState.ENDED) nextTrack();
 }
 
 function updateUI() {
     document.getElementById("trackInfo").textContent =
-        `Track ${currentTrack + 1} of ${playlist.length}`;
+      `Track ${currentTrack + 1} of ${playlist.length}`;
 
-    document.getElementById("songTitle").textContent = songNames[currentTrack];
-    document.getElementById("noteBox").textContent = songNotes[currentTrack];
+    document.getElementById("songTitle").textContent =
+      songNames[currentTrack];
 
-    updateActiveLetter(currentTrack);
+    document.getElementById("noteBox").textContent =
+      songNotes[currentTrack];
+
+    const spans = document.querySelectorAll("#nameTitle span");
+    spans.forEach(s => s.classList.remove("active"));
+    spans[currentTrack].classList.add("active");
+}
+
+function togglePlay() {
+    if (!player) return;
+    const reels = document.querySelectorAll(".reel");
+    const btn = document.getElementById("playBtn");
+
+    if (!isPlaying) {
+        player.playVideo();
+        reels.forEach(r => r.classList.add("playing"));
+        btn.textContent = "⏸️ Pause";
+        isPlaying = true;
+    } else {
+        player.pauseVideo();
+        reels.forEach(r => r.classList.remove("playing"));
+        btn.textContent = "▶️ Play";
+        isPlaying = false;
+    }
 }
 
 function nextTrack() {
+    if (!player) return;
     currentTrack = (currentTrack + 1) % playlist.length;
     player.loadVideoById(playlist[currentTrack]);
     updateUI();
 }
 
 function previousTrack() {
+    if (!player) return;
     currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
     player.loadVideoById(playlist[currentTrack]);
     updateUI();
 }
 
-function changeVolume() {
-    player.setVolume(document.getElementById("volumeSlider").value);
-}
+document.getElementById("volumeSlider").addEventListener("input", () => {
+    if (player) player.setVolume(volumeSlider.value);
+});
 
-/* Set initial letter highlight */
-updateActiveLetter(0);
-
+updateUI();
 </script>
 
 </body>
