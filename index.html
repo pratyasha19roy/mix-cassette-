@@ -4,37 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shawmava's Birthday Mixtape 🎵</title>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Courier New', monospace;
             background: linear-gradient(135deg, #fff7ad 0%, #ffed7b 100%);
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
-            overflow: hidden;
             padding: 20px;
+            gap: 40px;
         }
 
-        .container {
-            max-width: 500px;
+        /* NAME LETTERS AREA */
+        .name-banner {
             width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
+        .name-letter {
+            font-size: 40px;
+            padding: 0 8px;
+            color: #333;
+            opacity: 0.4;
+            transition: 0.3s;
+        }
+
+        .name-letter.active {
+            font-weight: bold;
+            opacity: 1;
+            font-size: 50px;
+        }
+
+        .song-title-display {
+            margin-top: 5px;
+            font-size: 18px;
+            color: #444;
+        }
+
+        /* CASSETTE AREA (your original) */
+        .container { max-width: 500px; width: 100%; }
         .cassette {
             background: linear-gradient(to bottom, #2c2c2c 0%, #1a1a1a 100%);
             border-radius: 20px;
             padding: 30px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            position: relative;
         }
-
         .cassette-top {
             background: #1a1a1a;
             border-radius: 10px;
@@ -42,293 +61,206 @@
             margin-bottom: 20px;
             border: 3px solid #333;
         }
+        .label { background: #f5e6d3; border-radius: 5px; padding: 15px; margin-bottom: 15px; text-align: center; }
 
-        .label {
-            background: #f5e6d3;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 15px;
-            text-align: center;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .label h2 {
-            color: #333;
-            font-size: 1.2em;
-            margin-bottom: 5px;
-        }
-
-        .label p {
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        .reels {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            gap: 20px;
-        }
-
+        .reels { display: flex; justify-content: space-around; align-items: center; gap: 20px; }
         .reel {
-            width: 80px;
-            height: 80px;
-            background: #333;
-            border-radius: 50%;
-            border: 8px solid #555;
+            width: 80px; height: 80px;
+            background: #333; border-radius: 50%; border: 8px solid #555;
             position: relative;
             animation: spin 3s linear infinite;
             animation-play-state: paused;
         }
+        .reel.playing { animation-play-state: running; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .reel.playing {
-            animation-play-state: running;
-        }
-
-        .reel::before {
-            content: '';
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: #222;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .reel::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: #666;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%) rotate(45deg);
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
+        .controls { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
         button {
-            background: #444;
-            border: none;
-            color: #fff;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1em;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            font-family: 'Courier New', monospace;
+            background: #444; color: #fff;
+            padding: 12px 20px; border-radius: 8px; border: none;
+            cursor: pointer; font-size: 1.1em;
         }
 
-        button:hover {
-            background: #555;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .volume-control {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 15px;
-            justify-content: center;
-        }
-
-        .volume-control input {
-            width: 150px;
-        }
-
-        .now-playing {
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
+        /* NOTEBOOK / MESSAGE BOX */
+        .note-box {
+            width: 320px;
+            background: #fffefa;
+            border: 2px solid #e0d8b0;
+            padding: 20px;
             border-radius: 10px;
-            margin-top: 15px;
-            text-align: center;
-            color: #fff;
-            font-size: 0.9em;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            font-family: Georgia, serif;
+            line-height: 1.6em;
+            position: sticky;
+            top: 20px;
         }
 
-        .track-info {
-            margin-bottom: 10px;
-            font-weight: bold;
+        #noteText {
+            white-space: pre-line;
+            font-size: 16px;
+            color: #444;
         }
 
-        /* Hidden YouTube player */
-        #player {
-            display: none;
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .cassette {
-                padding: 20px;
-            }
-            
-            .reel {
-                width: 60px;
-                height: 60px;
-            }
-            
-            button {
-                padding: 10px 15px;
-                font-size: 1em;
-            }
-        }
+        #player { display: none; }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="cassette">
-            <div class="cassette-top">
-                <div class="label">
-                    <h2>🎵 Shawmava's Birthday Mixtape</h2>
-                    <p>Made with ♥</p>
+
+    <!-- LEFT SIDE: Cassette + Name -->
+    <div class="left-side">
+
+        <!-- NAME BANNER -->
+        <div class="name-banner" id="nameBanner">
+            <!-- letters will auto-load here -->
+        </div>
+        <div class="song-title-display" id="songTitleDisplay">Press play to begin</div>
+
+        <!-- CASSETTE -->
+        <div class="container">
+            <div class="cassette">
+                <div class="cassette-top">
+                    <div class="label">
+                        <h2>🎵 Shawmava's Birthday Mixtape</h2>
+                        <p>Made with ♥</p>
+                    </div>
+
+                    <div class="reels">
+                        <div class="reel"></div>
+                        <div class="reel"></div>
+                    </div>
                 </div>
-                <div class="reels">
-                    <div class="reel" id="reel1"></div>
-                    <div class="reel" id="reel2"></div>
+
+                <div class="controls">
+                    <button onclick="previousTrack()">⏮️ Prev</button>
+                    <button onclick="togglePlay()" id="playBtn">▶️ Play</button>
+                    <button onclick="nextTrack()">⏭️ Next</button>
                 </div>
-            </div>
-
-            <div class="controls">
-                <button onclick="previousTrack()">⏮️ Prev</button>
-                <button onclick="togglePlay()" id="playBtn">▶️ Play</button>
-                <button onclick="nextTrack()">⏭️ Next</button>
-            </div>
-
-            <div class="volume-control">
-                <span style="color: #fff;">🔉</span>
-                <input type="range" min="0" max="100" value="70" id="volumeSlider" onchange="changeVolume()">
-                <span style="color: #fff;">🔊</span>
-            </div>
-
-            <div class="now-playing">
-                <div class="track-info" id="trackInfo">Track 1 of 8</div>
-                <div id="trackTitle">Press play to start</div>
             </div>
         </div>
     </div>
 
-    <!-- Hidden YouTube player -->
+    <!-- RIGHT SIDE: NOTE BOX -->
+    <div class="note-box">
+        <div id="noteText">Press play to read your first message ♥</div>
+    </div>
+
+    <!-- YT PLAYER -->
     <div id="player"></div>
 
     <script>
-        // ===== CUSTOMIZE YOUR PLAYLIST HERE =====
-        // Get YouTube video IDs from the URL: youtube.com/watch?v=VIDEO_ID
+        /* SONG LIST */
         const playlist = [
-            'lAsxLc9_45w',  // Replace with your YouTube video IDs
-            'FJ55SHCzt88',
-            'CNZMIhckaA0',
-            'wqgUzLHgNMI',
-            'TbjbZFqLEtw',
-            'fbdxYoFb64g',
-            '7NLfpsNHmZI',
-            'vwsWXUGLRts'
+            'lAsxLc9_45w',
+            'KQ6zr6kCPj8',
+            'kJQP7kiw5Fk',
+            'fJ9rUzIMcZQ',
+            '60ItHLz5WEA',
+            'hTWKbfoikeg',
+            'y6Sxv-sUYtM',
+            '9bZkp7q19f0'
         ];
-        // ========================================
+
+        /* SONG TITLES (YOU WILL EDIT THESE NAMES) */
+        const songNames = [
+            "Song 1 Name Here",
+            "Song 2 Name Here",
+            "Song 3 Name Here",
+            "Song 4 Name Here",
+            "Song 5 Name Here",
+            "Song 6 Name Here",
+            "Song 7 Name Here",
+            "Song 8 Name Here"
+        ];
+
+        /* PERSONAL NOTES FOR EACH SONG (YOU WILL EDIT THESE TEXTS) */
+        const notes = [
+            "Message for Song 1 goes here...",
+            "Message for Song 2 goes here...",
+            "Message for Song 3 goes here...",
+            "Message for Song 4 goes here...",
+            "Message for Song 5 goes here...",
+            "Message for Song 6 goes here...",
+            "Message for Song 7 goes here...",
+            "Message for Song 8 goes here..."
+        ];
+
+        /* NAME LETTERS */
+        const name = "SHAWMAVA".split("");
+
+        const nameBanner = document.getElementById("nameBanner");
+        name.forEach((letter, index) => {
+            const span = document.createElement("span");
+            span.classList.add("name-letter");
+            span.id = "letter-" + index;
+            span.textContent = letter;
+            nameBanner.appendChild(span);
+        });
 
         let player;
         let currentTrack = 0;
         let isPlaying = false;
 
-        // Load YouTube IFrame API
+        /* YOUTUBE API */
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        document.body.appendChild(tag);
 
-        // Initialize player when API is ready
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                height: '0',
-                width: '0',
+                height: '0', width: '0',
                 videoId: playlist[0],
-                playerVars: {
-                    'playsinline': 1,
-                    'controls': 0
-                },
                 events: {
-                    'onReady': onPlayerReady,
+                    'onReady': () => updateUI(),
                     'onStateChange': onPlayerStateChange
                 }
             });
         }
 
-        function onPlayerReady(event) {
-            player.setVolume(70);
-            updateTrackInfo();
-        }
-
         function onPlayerStateChange(event) {
-            if (event.data == YT.PlayerState.ENDED) {
-                nextTrack();
-            }
+            if (event.data === YT.PlayerState.ENDED) nextTrack();
         }
 
         function togglePlay() {
-            const playBtn = document.getElementById('playBtn');
-            const reels = document.querySelectorAll('.reel');
-            
             if (!isPlaying) {
                 player.playVideo();
-                playBtn.textContent = '⏸️ Pause';
+                document.getElementById("playBtn").textContent = "⏸️ Pause";
                 isPlaying = true;
-                reels.forEach(reel => reel.classList.add('playing'));
+                document.querySelectorAll(".reel").forEach(r => r.classList.add("playing"));
             } else {
                 player.pauseVideo();
-                playBtn.textContent = '▶️ Play';
+                document.getElementById("playBtn").textContent = "▶️ Play";
                 isPlaying = false;
-                reels.forEach(reel => reel.classList.remove('playing'));
+                document.querySelectorAll(".reel").forEach(r => r.classList.remove("playing"));
             }
         }
 
         function nextTrack() {
             currentTrack = (currentTrack + 1) % playlist.length;
             player.loadVideoById(playlist[currentTrack]);
-            updateTrackInfo();
-            if (isPlaying) {
-                player.playVideo();
-            }
+            updateUI();
         }
 
         function previousTrack() {
             currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
             player.loadVideoById(playlist[currentTrack]);
-            updateTrackInfo();
-            if (isPlaying) {
-                player.playVideo();
-            }
+            updateUI();
         }
 
-        function changeVolume() {
-            const volume = document.getElementById('volumeSlider').value;
-            player.setVolume(volume);
-        }
+        /* UPDATE EVERYTHING (letters, title, note) */
+        function updateUI() {
+            // highlight correct letter
+            document.querySelectorAll(".name-letter").forEach(el => el.classList.remove("active"));
+            document.getElementById("letter-" + currentTrack).classList.add("active");
 
-        function updateTrackInfo() {
-            document.getElementById('trackInfo').textContent = 
-                `Track ${currentTrack + 1} of ${playlist.length}`;
-            document.getElementById('trackTitle').textContent = 
-                `Now playing...`;
+            // show correct song name
+            document.getElementById("songTitleDisplay").textContent = songNames[currentTrack];
+
+            // show correct note
+            document.getElementById("noteText").textContent = notes[currentTrack];
         }
     </script>
+
 </body>
 </html>
+
